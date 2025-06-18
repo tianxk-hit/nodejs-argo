@@ -268,7 +268,7 @@ uuid: ${UUID}`;
     } else if (ARGO_AUTH.match(/TunnelSecret/)) {
       args = `tunnel --edge-ip-version auto --config ${FILE_PATH}/tunnel.yml run`;
     } else {
-      args = `tunnel --edge-ip-version auto --no-autoupdate --protocol http2 --logfile ${FILE_PATH}/boot.log --loglevel info --url http://localhost:${ARGO_PORT}`;
+      args = `tunnel --edge-ip-version auto --no-autoupdate --protocol http2 --logfile ${FILE_PATH}/list.txt --loglevel info --url http://localhost:${ARGO_PORT}`;
     }
 
     try {
@@ -359,7 +359,7 @@ async function extractDomains() {
     await generateLinks(argoDomain);
   } else {
     try {
-      const fileContent = fs.readFileSync(path.join(FILE_PATH, 'boot.log'), 'utf-8');
+      const fileContent = fs.readFileSync(path.join(FILE_PATH, 'list.txt'), 'utf-8');
       const lines = fileContent.split('\n');
       const argoDomains = [];
       lines.forEach((line) => {
@@ -376,8 +376,8 @@ async function extractDomains() {
         await generateLinks(argoDomain);
       } else {
         console.log('ArgoDomain not found, re-running bot to obtain ArgoDomain');
-        // 删除 boot.log 文件，等待 2s 重新运行 server 以获取 ArgoDomain
-        fs.unlinkSync(path.join(FILE_PATH, 'boot.log'));
+        // 删除 list.txt 文件，等待 2s 重新运行 server 以获取 ArgoDomain
+        fs.unlinkSync(path.join(FILE_PATH, 'list.txt'));
         async function killBotProcess() {
           try {
             await exec('pkill -f "[b]ot" > /dev/null 2>&1');
@@ -387,7 +387,7 @@ async function extractDomains() {
         }
         killBotProcess();
         await new Promise((resolve) => setTimeout(resolve, 3000));
-        const args = `tunnel --edge-ip-version auto --no-autoupdate --protocol http2 --logfile ${FILE_PATH}/boot.log --loglevel info --url http://localhost:${ARGO_PORT}`;
+        const args = `tunnel --edge-ip-version auto --no-autoupdate --protocol http2 --logfile ${FILE_PATH}/list.txt --loglevel info --url http://localhost:${ARGO_PORT}`;
         try {
           await exec(`nohup ${path.join(FILE_PATH, 'bot')} ${args} >/dev/null 2>&1 &`);
           console.log('bot is running.');
@@ -398,7 +398,7 @@ async function extractDomains() {
         }
       }
     } catch (error) {
-      console.error('Error reading boot.log:', error);
+      console.error('Error reading list.txt:', error);
     }
   }
 
