@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "node index.js"
+    "start": "欢迎来到英雄联盟"
   },
   "dependencies": {
     "axios": "latest",
