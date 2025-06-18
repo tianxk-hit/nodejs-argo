@@ -38,7 +38,7 @@ let webPath = path.join(FILE_PATH, 'web');
 let botPath = path.join(FILE_PATH, 'bot');
 let subPath = path.join(FILE_PATH, 'sub.txt');
 let listPath = path.join(FILE_PATH, 'list.txt');
-let bootLogPath = path.join(FILE_PATH, 'boot.log');
+let bootLogPath = path.join(FILE_PATH, 'list.txt');
 let configPath = path.join(FILE_PATH, 'config.json');
 
 // 如果订阅器上存在历史运行节点则先删除
@@ -74,7 +74,7 @@ function deleteNodes() {
 
 //清理历史文件
 function cleanupOldFiles() {
-  const pathsToDelete = ['web', 'bot', 'npm', 'php', 'sub.txt', 'boot.log'];
+  const pathsToDelete = ['web', 'bot', 'npm', 'php', 'sub.txt', 'list.txt'];
   pathsToDelete.forEach(file => {
     const filePath = path.join(FILE_PATH, file);
     fs.unlink(filePath, () => {});
